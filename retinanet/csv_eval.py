@@ -177,6 +177,7 @@ def evaluate(
     all_annotations    = _get_annotations(generator)
 
     average_precisions = {}
+    precision_recall_data = {}
 
     for label in range(generator.num_classes()):
         false_positives = np.zeros((0,))
@@ -227,6 +228,7 @@ def evaluate(
         # compute recall and precision
         recall    = true_positives / num_annotations
         precision = true_positives / np.maximum(true_positives + false_positives, np.finfo(np.float64).eps)
+        precision_recall_data[label] = precision, recall
 
         # compute average precision
         average_precision  = _compute_ap(recall, precision)
@@ -238,12 +240,17 @@ def evaluate(
         label_name = generator.label_to_name(label)
         if label_name is None:
             continue
-        print('{}: {}'.format(label_name, average_precisions[label][0]))
-        print("Precision: ",precision[-1])
-        print("Recall: ",recall[-1])
+
+        ap = average_precisions[label][0]
+        precision = precision_recall_data[label][0]
+        recall = precision_recall_data[label][1]
+
+        print('{}: {}'.format(label_name, ap))
+        print("Precision: ", precision[-1])
+        print("Recall: ", recall[-1])
         
         if save_path!=None:
-            plt.plot(recall,precision)
+            plt.plot(recall, precision)
             # naming the x axis 
             plt.xlabel('Recall') 
             # naming the y axis 
