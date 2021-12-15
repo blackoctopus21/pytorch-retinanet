@@ -285,10 +285,14 @@ class CSVDataset(Dataset):
         return result
 
     def name_to_label(self, name):
-        return self.classes[name]
+        if name in self.classes:
+            return self.classes[name]
+        return None
 
     def label_to_name(self, label):
-        return self.labels[label]
+        if label in self.labels:
+            return self.labels[label]
+        return None
 
     def num_classes(self):
         return max(self.classes.values()) + 1
