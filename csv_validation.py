@@ -24,8 +24,8 @@ def main(args=None):
     #dataset_val = CocoDataset(parser.coco_path, set_name='val2017',transform=transforms.Compose([Normalizer(), Resizer()]))
     dataset_val = CSVDataset(parser.csv_annotations_path,parser.class_list_path,transform=transforms.Compose([Normalizer(), Resizer()]))
     # Create the model
-    #retinanet = model.resnet50(num_classes=dataset_val.num_classes(), pretrained=True)
-    retinanet=torch.load(parser.model_path)
+    #retinanet = model.resnet50(num_classes=dataset_val.num_classes())
+    retinanet = torch.load(parser.model_path)
 
     use_gpu = True
 
@@ -37,14 +37,14 @@ def main(args=None):
         #retinanet.load_state_dict(torch.load(parser.model_path))
         retinanet = torch.nn.DataParallel(retinanet).cuda()
     else:
-        retinanet.load_state_dict(torch.load(parser.model_path))
+        #retinanet.load_state_dict(torch.load(parser.model_path))
         retinanet = torch.nn.DataParallel(retinanet)
 
     retinanet.training = False
     retinanet.eval()
     retinanet.module.freeze_bn()
 
-    print(csv_eval.evaluate(dataset_val, retinanet,iou_threshold=float(parser.iou_threshold)))
+    print(csv_eval.evaluate(dataset_val, retinanet, iou_threshold=float(parser.iou_threshold)))
 
 
 
