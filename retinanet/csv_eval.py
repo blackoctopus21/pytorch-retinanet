@@ -304,10 +304,10 @@ def _save_data(all_average_precisions, mean_aps, mean_label_aps, save_path):
     with open(save_path + 'all_average_precisions.pickle', 'wb') as handle:
         pickle.dump(all_average_precisions, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-    with open(save_path + 'AP_for_each_threshold', 'wb') as handle:
+    with open(save_path + 'AP_for_each_threshold.pickle', 'wb') as handle:
         pickle.dump(mean_aps, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-    with open(save_path + 'mAP_for_each_label', 'wb') as handle:
+    with open(save_path + 'mAP_for_each_label.pickle', 'wb') as handle:
         pickle.dump(mean_label_aps, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
