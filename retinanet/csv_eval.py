@@ -270,6 +270,7 @@ def evaluate_mAP(generator,
     label_maps = {label: [] for label in range(generator.num_classes())}
 
     for iou_threshold in range(5, 100, 5):
+        iou_threshold /= 100
         all_average_precisions[iou_threshold] = {}
         all_annotation_counts[iou_threshold] = {}
         all_precisions[iou_threshold] = {}
