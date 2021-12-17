@@ -246,7 +246,7 @@ def _evaluate_for_one_label(
 
 
 def _compute_mean_from_APs(average_precisions):
-    return np.mean(average_precisions.values())
+    return sum(average_precisions.values()) / len(average_precisions)
 
 
 def evaluate_mAP(generator,
@@ -291,9 +291,9 @@ def evaluate_mAP(generator,
         mean_aps[iou_threshold] = _compute_mean_from_APs(all_average_precisions[iou_threshold])
 
     for label in range(generator.num_classes()):
-        mean_label_aps[label] = np.sum(label_maps[label]) / 18
+        mean_label_aps[label] = sum(label_maps[label]) / len(label_maps[label])
 
-    dataset_map = np.sum(mean_aps.values()) / 18
+    dataset_map = sum(mean_aps.values()) / len(mean_aps)
 
     _save_data(all_average_precisions, mean_aps, mean_label_aps, save_path)
 
